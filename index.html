@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>English A2+ Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    #timer {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    #score {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    .question {
+      border: 2px solid green;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>English A2+ Test</h1>
+
+  <div id="timer">Time remaining: 20:00</div>
+
+  <form id="testForm">
+    <!-- Questions go here -->
+    <ol>
+      <li class="question">
+        <p>1. Choose the correct synonym for "excited":</p>
+        <input type="radio" name="q1" value="option1"> A) Happy<br>
+        <input type="radio" name="q1" value="correct"> B) Thrilled<br>
+        <input type="radio" name="q1" value="option3"> C) Tired<br>
+      </li>
+      <!-- Add more questions here -->
+
+      <li class="question">
+        <p>20. Choose the correct sentence that uses the present perfect tense:</p>
+        <input type="radio" name="q20" value="correct"> A) I have visited Paris three times.<br>
+        <input type="radio" name="q20" value="option2"> B) I visit Paris three times.<br>
+        <input type="radio" name="q20" value="option3"> C) I visited Paris three times.<br>
+      </li>
+    </ol>
+
+    <input type="submit" value="Submit">
+  </form>
+
+  <div id="score" style="display: none;"></div>
+
+  <script>
+    // Function to start the timer
+    function startTimer(duration, display) {
+      let timer = duration, minutes, seconds;
+      setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = "Time remaining: " + minutes + ":" + seconds;
+
+        if (--timer < 0) {
+          display.textContent = "Time's up!";
+          document.getElementById("testForm").submit();
+        }
+      }, 1000);
+    }
+
+    window.onload = function () {
+      let twentyMinutes = 60 * 20,
+        display = document.querySelector("#timer");
+      startTimer(twentyMinutes, display);
+    };
+
+    document.getElementById("testForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      let score = 0;
+      const form = e.target;
+      const formData = new FormData(form);
+
+      // Calculate the score
+      formData.forEach((value, key) => {
+        if (value === "correct") {
+          score++;
+        }
+      });
+
+      // Display the score
+      const scoreDiv = document.getElementById("score");
+      scoreDiv.textContent = "Your score is: " + score + "/" + '20'
+      scoreDiv.style.display = "block";
+    });
+  </script>
+</body>
+</html>
